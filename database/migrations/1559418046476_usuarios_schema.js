@@ -10,7 +10,7 @@ class UsuariosSchema extends Schema {
       table.string('nombre', 50).notNullable()
       table.string('apellidoP', 50).notNullable()
       table.string('apellidoM', 50).notNullable()
-      table.string('correo', 50).notNullable()
+      table.string('correo', 50).notNullable().unique()
       table.string('contra', 300).notNullable()
     })
   }

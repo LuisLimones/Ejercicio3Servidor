@@ -20,8 +20,12 @@ class UsuarioController {
    * @param {View} ctx.view
    */
   async index ({ request, response }) {
-    let usuarios = await Usuario.all();
-    return response.json(usuarios);
+    try {
+      let usuarios = await Usuario.all();
+      return response.json(usuarios);
+    } catch (error) {
+      return response.json(error);
+    }
   }
 
   /**
@@ -66,8 +70,12 @@ class UsuarioController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response }) {
-    let usuario = await Usuario.find(params.id);
-    return response.json(usuario);
+    try {
+      let usuario = await Usuario.find(params.id);
+      return response.json(usuario);
+    } catch (error) {
+      return response.json(error);
+    }
   }
 
   /**
@@ -79,19 +87,23 @@ class UsuarioController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
-    let nombre=request.input('nombre');
-    let apellidoP=request.input('apellidoP');
-    let apellidoM=request.input('apellidoM');
-    let correo=request.input('correo');
-    let contra=request.input('contra');
-    let usuario= await Usuario.find(params.id);
-    usuario.nombre=nombre;
-    usuario.apellidoP=apellidoP;
-    usuario.apellidoM=apellidoM;
-    usuario.correo=correo;
-    usuario.contra=contra;
-    await usuario.save();
-    return response.json(usuario);
+    try {
+      let nombre=request.input('nombre');
+      let apellidoP=request.input('apellidoP');
+      let apellidoM=request.input('apellidoM');
+      let correo=request.input('correo');
+      let contra=request.input('contra');
+      let usuario= await Usuario.find(params.id);
+      usuario.nombre=nombre;
+      usuario.apellidoP=apellidoP;
+      usuario.apellidoM=apellidoM;
+      usuario.correo=correo;
+      usuario.contra=contra;
+      await usuario.save();
+      return response.json(usuario);
+    } catch (error) {
+      return response.json(error);
+    }
   }
 
   /**
@@ -107,6 +119,25 @@ class UsuarioController {
     console.log(usuario)
     await usuario.delete()
     return response.json({message: 'Usuario ELiminado '})
+  }
+
+  async login({request, response, auth}){
+    try {
+      const correo=request.input('correo');
+      const contra=request.input('contra');
+      let token=await auth.attempt(correo, contra);
+      console.log(token);
+      if(!token.token){
+        console.log("llega if")
+        return response.json({'error': "Usuario no encontrado"}) 
+      }
+      else{
+        console.log("llega else");
+        return response.json(token)
+      }
+    } catch (error) {
+      return response.json(error);
+    }
   }
 }
 

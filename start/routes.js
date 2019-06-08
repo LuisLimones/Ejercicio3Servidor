@@ -22,6 +22,8 @@ Route.post('/usuarios/nuevo', 'UsuarioController.store')
 Route.put('/usuarios/actualizar/:id', 'UsuarioController.update')
 Route.delete('/usuarios/eliminar/:id', 'UsuarioController.destroy')
 
+Route.post('/usuarios/login', 'UsuarioController.login')
+
 Route.put('/api/contacts/:id', 'ContactController.update')
 Route.delete('/api/contacts/:id', 'ContactController.destroy')
 Route.post('/api/contacts', 'ContactController.store')
