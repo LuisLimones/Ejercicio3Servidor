@@ -15,17 +15,12 @@
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
-
-Route.get('/usuarios/todos', 'UsuarioController.index')
-Route.get('/usuarios/:id', 'UsuarioController.show')
-Route.post('/usuarios/nuevo', 'UsuarioController.store')
-Route.put('/usuarios/actualizar/:id', 'UsuarioController.update')
-Route.delete('/usuarios/eliminar/:id', 'UsuarioController.destroy')
-
 Route.post('/usuarios/login', 'UsuarioController.login')
 
-Route.put('/api/contacts/:id', 'ContactController.update')
-Route.delete('/api/contacts/:id', 'ContactController.destroy')
-Route.post('/api/contacts', 'ContactController.store')
-Route.get('/api/contacts', 'ContactController.index') 
+Route.get('/usuarios/todos', 'UsuarioController.index').middleware(['auth:jwt'])
+Route.get('/usuarios/:id', 'UsuarioController.show').middleware(['auth:jwt'])
+Route.post('/usuarios/nuevo', 'UsuarioController.store').middleware(['auth:jwt'])
+Route.put('/usuarios/actualizar/:id', 'UsuarioController.update').middleware(['auth:jwt'])
+Route.delete('/usuarios/eliminar/:id', 'UsuarioController.destroy').middleware(['auth:jwt'])
+
 
